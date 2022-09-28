@@ -20,11 +20,12 @@ while cap.isOpened():
     FONT = cv2.FONT_HERSHEY_SIMPLEX
     FONT_SCALE = 0.8
     FONT_THICKNESS = 2
-    lable_color = (10, 10, 255)
-    lable_dimension = cv2.getTextSize(lable,FONT ,FONT_SCALE,FONT_THICKNESS)[0]
-    textX = int((res.shape[1] - lable_dimension[0]) / 2)
-    textY = int((res.shape[0] + lable_dimension[1]) / 2)
-    cv2.putText(res, lable, (textX,textY), FONT, FONT_SCALE, (0,0,0), FONT_THICKNESS)
+    label="Made by Data Duo"
+    label_color = (10, 10, 255)
+    label_dimension = cv2.getTextSize(label, FONT ,FONT_SCALE,FONT_THICKNESS)[0]
+    textX = int((res.shape[1] - label_dimension[0]) / 2)
+    textY = int((res.shape[0] + label_dimension[1]) / 2)
+    cv2.putText(res, label, (textX,textY), FONT, FONT_SCALE, (0,0,0), FONT_THICKNESS)
     gray_image= cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_haar_cascade.detectMultiScale(gray_image )
     try:
@@ -39,11 +40,11 @@ while cap.isOpened():
             max_index = np.argmax(predictions[0])
             emotion_detection = ('angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral')
             emotion_prediction = emotion_detection[max_index]
-            cv2.putText(res, "Sentiment: {}".format(emotion_prediction), (0,textY+22+5), FONT,0.7, lable_color,2)
-            lable_violation = 'Confidence: {}'.format(str(np.round(np.max(predictions[0])*100,1))+ "%")
-            violation_text_dimension = cv2.getTextSize(lable_violation,FONT,FONT_SCALE,FONT_THICKNESS )[0]
+            cv2.putText(res, "Sentiment: {}".format(emotion_prediction), (0,textY+22+5), FONT,0.7, label_color,2)
+            label_violation = 'Confidence: {}'.format(str(np.round(np.max(predictions[0])*100,1))+ "%")
+            violation_text_dimension = cv2.getTextSize(label_violation,FONT,FONT_SCALE,FONT_THICKNESS )[0]
             violation_x_axis = int(res.shape[1]- violation_text_dimension[0])
-            cv2.putText(res, lable_violation, (violation_x_axis,textY+22+5), FONT,0.7, lable_color,2)
+            cv2.putText(res, label_violation, (violation_x_axis,textY+22+5), FONT,0.7, label_color,2)
     except :
         pass
     frame[0:int(height/6),0:int(width)] =res
@@ -52,8 +53,6 @@ while cap.isOpened():
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-
-
 
 cap.release()
 cv2.destroyAllWindows
